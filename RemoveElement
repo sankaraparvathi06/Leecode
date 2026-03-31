@@ -1,0 +1,16 @@
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int k = 0; // Pointer for the next position to fill
+
+        for (int i = 0; i < nums.length; i++) {
+            // If the current element is not the value to remove
+            if (nums[i] != val) {
+                // Move it to the 'k' index and increment k
+                nums[k] = nums[i];
+                k++;
+            }
+        }
+        
+        return k;
+    }
+}
