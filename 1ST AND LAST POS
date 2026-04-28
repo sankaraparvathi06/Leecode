@@ -1,0 +1,35 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] result = {-1, -1};
+        
+        result[0] = findBound(nums, target, true); // Find first occurrence
+        if (result[0] != -1) {
+            result[1] = findBound(nums, target, false); // Find last occurrence
+        }
+        
+        return result;
+    }
+
+    private int findBound(int[] nums, int target, boolean isFirst) {
+        int low = 0, high = nums.length - 1;
+        int index = -1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (nums[mid] == target) {
+                index = mid;
+                if (isFirst) {
+                    high = mid - 1; // Keep looking left
+                } else {
+                    low = mid + 1; // Keep looking right
+                }
+            } else if (nums[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return index;
+    }
+}
