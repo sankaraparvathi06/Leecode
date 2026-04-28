@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        // Sorting is mandatory here to easily skip duplicates
+        Arrays.sort(candidates);
+        backtrack(result, new ArrayList<>(), candidates, target, 0);
+        return result;
+    }
+
+    private void backtrack(List<List<Integer>> result, List<Integer> tempList, int[] nums, int remain, int start) {
+        if (remain == 0) {
+            result.add(new ArrayList<>(tempList));
+            return;
+        }
+
+        for (int i = start; i < nums.length; i++) {
+            // Pruning: if the current number is too big, the rest will be too
+            if (nums[i] > remain) break;
+
+            // Skip duplicates: if this number is the same as the previous 
+            // and we're in the same loop level, skip it.
+            if (i > start && nums[i] == nums[i - 1]) continue;
+
+            tempList.add(nums[i]);
+            // Use 'i + 1' to move to the next available number
+            backtrack(result, tempList, nums, remain - nums[i], i + 1);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
